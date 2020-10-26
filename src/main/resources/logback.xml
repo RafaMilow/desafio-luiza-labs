@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true">
+	<contextName>base-logger</contextName>
+	<appender name="SIFT"
+		class="ch.qos.logback.classic.sift.SiftingAppender">
+
+		<discriminator>
+			<key>logName</key>
+			<defaultValue>base-logger</defaultValue>
+		</discriminator>
+
+		<sift>
+			<statusListener
+				class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+			<appender name="log"
+				class="ch.qos.logback.core.rolling.RollingFileAppender">
+				<file>/usr/local/tomcat/logs/Webapp-desafio-Luizalabs.log</file>
+				<rollingPolicy
+					class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+					<fileNamePattern>/usr/local/tomcat/logs/Webapp-desafio-Luizalabs.%d{yyyy-MM-dd_HH}.log
+					</fileNamePattern>
+					<maxHistory>15</maxHistory>
+					<timeBasedFileNamingAndTriggeringPolicy
+						class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+						<maxFileSize>100MB</maxFileSize>
+					</timeBasedFileNamingAndTriggeringPolicy>
+				</rollingPolicy>
+
+				<encoder>
+					<pattern>%d{ISO8601} %-5level - %msg%n</pattern>
+				</encoder>
+			</appender>
+		</sift>
+	</appender>
+
+	<logger name="com.br.luizalabs" level="info" />
+	<logger name="test.com.br.luizalabs" level="info" />
+
+
+	<root level="info">
+		<appender-ref ref="SIFT" />
+	</root>
+</configuration>
