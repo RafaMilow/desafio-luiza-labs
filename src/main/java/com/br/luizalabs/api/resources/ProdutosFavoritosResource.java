@@ -95,9 +95,14 @@ public class ProdutosFavoritosResource {
 
 		Log.info("{} | START --> Apagando o productId: {} da lista de favoritos do clienteId: {}", uuid, productId,
 				clienteId);
-		Integer result = produtosFavoritos.deleteItemOnList(clienteId, productId);
-		Log.info("{} | END --> Apagado. Result: {}| Tempo Gasto: {}ms", uuid, result,
-				timer.elapsed(TimeUnit.MILLISECONDS));
+		boolean wasDeleted = produtosFavoritos.deleteItemOnList(clienteId, productId);
+		if (!wasDeleted) {
+			Log.info("{} | END --> Produto nao encontrado! | Tempo Gasto: {}ms", uuid,
+					timer.elapsed(TimeUnit.MILLISECONDS));
+			throw new GenericException(Response.Status.NOT_FOUND,
+					"Produto não encontrado na lista de favoritos do produto!");
+		}
+		Log.info("{} | END --> Apagado. Result: {}| Tempo Gasto: {}ms", uuid, timer.elapsed(TimeUnit.MILLISECONDS));
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 

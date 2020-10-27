@@ -13,6 +13,7 @@ import com.br.luizalabs.api.jdbi.interfaces.ProdutosFavoritosDAO;
 import com.br.luizalabs.api.service.interfaces.ProdutosFavoritos;
 import com.br.luizalabs.api.to.ClienteRequest;
 import com.br.luizalabs.api.to.ProductTO;
+import com.sun.xml.bind.v2.runtime.reflect.opt.Const;
 
 public class ProdutosFavoritosImpl implements ProdutosFavoritos {
 
@@ -44,11 +45,14 @@ public class ProdutosFavoritosImpl implements ProdutosFavoritos {
 	}
 
 	@Override
-	public Integer deleteItemOnList(Integer clienteId, Integer productId) {
+	public boolean deleteItemOnList(Integer clienteId, Integer productId) {
 		checkClientExists(clienteId);
-		Integer value = produtosFavoritosDAO.deleteOneProduct(clienteId, productId);
-		Log.info("Valor do retorno do DELETE SINGLE PRODUCT: {}", value);
-		return value;
+		Integer affectedRows = produtosFavoritosDAO.deleteOneProduct(clienteId, productId);
+		if(affectedRows > Constants.ZERO_AFFECTED_ROWS) {
+			return true;
+		}
+		Log.info("Valor do retorno do DELETE SINGLE PRODUCT: {}", affectedRows);
+		return false;
 	}
 
 	@Override

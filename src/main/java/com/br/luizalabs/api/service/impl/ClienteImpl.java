@@ -32,7 +32,7 @@ public class ClienteImpl implements Cliente {
 	@Override
 	public boolean delete(Integer clienteId) {
 		Integer affectedRows = clientesDAO.softDelete(clienteId);
-		if (affectedRows > Constants.NO_AFFECTED_ROWS) {
+		if (affectedRows > Constants.ZERO_AFFECTED_ROWS) {
 			produtosFavoritosDAO.deleteAllProducts(clienteId);
 			return true;
 		}
@@ -54,7 +54,7 @@ public class ClienteImpl implements Cliente {
 	public boolean update(Integer clienteId, String nome, String email) {
 		try {
 			Integer affectedRows = clientesDAO.updateCliente(clienteId, nome, email);
-			if(affectedRows > Constants.NO_AFFECTED_ROWS) {
+			if(affectedRows > Constants.ZERO_AFFECTED_ROWS) {
 				return true;
 			}
 		} catch (Exception e) {

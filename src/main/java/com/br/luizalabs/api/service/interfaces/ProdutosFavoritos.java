@@ -13,7 +13,7 @@ public interface ProdutosFavoritos {
 
 	public Integer createItemOnList(Integer clienteId, Integer productId);
 	
-	public Integer deleteItemOnList(Integer clienteId, Integer productId);
+	public boolean deleteItemOnList(Integer clienteId, Integer productId);
 	
 	public Integer deleteAllList(Integer clienteId);
 	
