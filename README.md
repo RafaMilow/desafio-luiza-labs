@@ -89,5 +89,12 @@ public class Constants {
 
 ## API do Produto
 
+Esta API utiliza o Basic Authentication.
+O Basic Authentication é o sistema de autenticação mais comum do protocolo HTTP. Ele é incluído no header da requisição HTTP dessa maneira:
+```
+Authorization: Basic {credenciais em base 64 no formato usuário:senha}
+```
+
 Os endpoints foram mapeados usando a ferramenta POSTMAN e sua documentação se encontra em:
 https://documenter.getpostman.com/view/94994/TVYGcdiL#273de19a-ea7d-40ed-8956-a28e2b3d324a
+
