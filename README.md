@@ -46,13 +46,15 @@ user: root
 senha: milowrlz  
 ```
 Assim teremos os containeres criados e prontos para utilização. Se quiser parar a qualquer momento, basta executar:
-`docker-compose down`
+```bash
+docker-compose down
+```
 
 #### Para acompanhar os logs da aplicação:
 
 Para que você possa acompanhar os logs da aplicação teremos que logar no container do tomcat:
 
-```
+```bash
 Rafaels-MacBook-Pro:LuizaLabs RafaMilow$ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
 ca89e51a1e24        app_tomcat          "catalina.sh run"        10 seconds ago      Up 8 seconds        0.0.0.0:8081->8080/tcp   BFX-TOMCAT
@@ -60,7 +62,7 @@ ca89e51a1e24        app_tomcat          "catalina.sh run"        10 seconds ago 
 Rafaels-MacBook-Pro:LuizaLabs RafaMilow$ docker exec -t -i ca89e51a1e24 /bin/bash
 ```
 
-Depois que conseguir entrar no container ir para o diretório:
+Depois que conseguir entrar no container ir para o diretório:  
 `cd /usr/local/tomcat/logs`
 
 Lá teremos um arquivo com o nome: `Webapp-desafio-Luizalabs.log` com algumas informaçãoes geradas ao invocarmos os serviços da aplicação.
