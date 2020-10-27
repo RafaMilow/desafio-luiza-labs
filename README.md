@@ -89,6 +89,9 @@ public class Constants {
   
 }
 ```
+## Testes unitários da aplicação
+Os testes unitários não foram automatizados, podem ser vistos [aqui](https://github.com/RafaMilow/desafio-luiza-labs/tree/main/src/test/java/test).
+Temos testes utilizando o JUNIT, no qual extendemos um JerseyTest para que seja simulado os recursos.
 
 ## API do Produto
 
