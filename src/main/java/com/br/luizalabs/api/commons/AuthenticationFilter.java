@@ -36,10 +36,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 		String username = tokenizer.nextToken();
 		String password = tokenizer.nextToken();
 
-		//System.out.println(username);
-		//System.out.println(password);
-
-		if ("rafa".equals(username) && "ana".equals(password)) {
+		if ("luiza".equals(username) && "labs".equals(password)) {
 			return;
 		}
 
