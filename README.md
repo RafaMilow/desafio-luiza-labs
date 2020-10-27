@@ -33,6 +33,17 @@ Ao terminar teremos:
 Creating BFX-TOMCAT  ... done
 Creating BFX-MARIADB ... done
 
+O servidor da aplicação (TOMCAT) terá a porta 8081 exposta na máquina host, ou seja, você poderá verificar se o tomcat está correndo normalmente apontando o ser browser para:
+http://localhost:8081/
+
+O MySQL (mariadb), tambem esta sendo executado com a porta 3306 exposta para o seu host, você pode usar seu client preferido e conectar
+no banco com os parametros abaixo:
+
+server: localhost
+porta: 3306
+user: root
+senha: milowrlz
+
 Assim teremos os containeres criados e prontos para utilização. Se quiser parar a qualquer momento, basta executar:
 `docker-compose down`
 
@@ -40,37 +51,43 @@ Assim teremos os containeres criados e prontos para utilização. Se quiser para
 
 Para que você possa acompanhar os logs da aplicação teremos que logar no container do tomcat:
 
+```
 Rafaels-MacBook-Pro:LuizaLabs RafaMilow$ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
 `ca89e51a1e24`        app_tomcat          "catalina.sh run"        10 seconds ago      Up 8 seconds        0.0.0.0:8081->8080/tcp   BFX-TOMCAT
 2accaaffe4fd        mariadb-mysql       "docker-entrypoint.s…"   10 seconds ago      Up 7 seconds        0.0.0.0:3306->3306/tcp   BFX-MARIADB
 Rafaels-MacBook-Pro:LuizaLabs RafaMilow$ docker exec -t -i `ca89e51a1e24` /bin/bash
+```
 
 Depois que conseguir entrar no container ir para o diretório:
 `cd /usr/local/tomcat/logs`
 
-Lá teremos um arquivo com o nome: Webapp-desafio-Luizalabs.log
+Lá teremos um arquivo com o nome: `Webapp-desafio-Luizalabs.log` com algumas informaçãoes geradas ao invocarmos os serviços da aplicação.
 
+## A aplicação desafio-luiza-labs.war
 
-## Produtos
+A aplicação possui dois pontos em que podemos configurar a conexão com o banco de dados e a URL para que seja chamado a API de produtos da Luiza Labs:
 
-Os endpoints de listagem e detalhe possuem produtos com a mesma estrutura, sendo que esta é composta por:
+- mysql.properties:
+mysql.driver=com.mysql.jdbc.Driver
+mysql.url=jdbc:mysql://mysqlsrv:3306/luizalabs
+mysql.username=root
+mysql.password=milowrlz
 
-- `price`: preço do produto
-- `image`: URL da imagem do produto
-- `brand`: marca do produto
-- `id`: id do produto
-- `title`: nome do produto
-- `reviewScore`: média dos reviews para este produto
+- Constants.Java:
+```java
+package com.br.luizalabs.api.constants;
 
-### Listagem
+public class Constants {
 
-`<PAGINA>` representa o número da página requisitada, iniciando em `1`.
+	public final static Integer EMPTY_LIST_SIZE = 0;
+	public final static String PRODUCT_API_URL = "https://5f3589525b91f60016ca4ee6.mockapi.io";
+	public final static String PRODUCT_API_PATH = "/api/product/";
+  
+}
+```
 
-URL: `http://challenge-api.luizalabs.com/api/product/?page=<PAGINA>`
+## API do Produto
 
-### Detalhe
-
-`<ID>` representa o `id` do produto, a ser coletado no endpoint de listagem.
-
-URL: `http://challenge-api.luizalabs.com/api/product/<ID>/`
+Os endpoints foram mapeados usando a ferramenta POSTMAN e sua documentação se encontra em:
+https://documenter.getpostman.com/view/94994/TVYGcdiL#273de19a-ea7d-40ed-8956-a28e2b3d324a
