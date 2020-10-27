@@ -39,7 +39,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 		//System.out.println(username);
 		//System.out.println(password);
 
-		if ("rafa".equals(username) && "ana".equals(password)) {
+		if ("luiza".equals(username) && "labs".equals(password)) {
 			return;
 		}
 
