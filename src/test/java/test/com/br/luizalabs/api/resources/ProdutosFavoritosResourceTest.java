@@ -18,9 +18,9 @@ public class ProdutosFavoritosResourceTest extends AbstractResourceTest {
 	private HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(USERNAME, PASSWORD);
 
 	@Test
-	//@Ignore
+	@Ignore
 	public void listaProdutosFavoritosTest() {
-		Response response = target("/clientes/240/produtos-favoritos").register(feature).request().get();
+		Response response = target("/clientes/1/produtos-favoritos").register(feature).request().get();
 		System.out.println(response);
 		String output = response.readEntity(String.class);
 		System.out.println(output);
@@ -29,10 +29,10 @@ public class ProdutosFavoritosResourceTest extends AbstractResourceTest {
 	}
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void createItemNalistaTest() {
 		ProdutosFavoritosTO produto = new ProdutosFavoritosTO();
-		produto.setProductId(3);
+		produto.setProductId(6);
 		Response response = target("/clientes/1/produtos-favoritos").register(feature).request()
 				.post(Entity.json(produto));
 		System.out.println(response);

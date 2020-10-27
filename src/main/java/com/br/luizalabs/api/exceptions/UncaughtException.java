@@ -5,6 +5,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import com.br.luizalabs.api.app.Log;
+import com.br.luizalabs.api.to.GenericResponseEntity;
 
 @Provider
 public class UncaughtException extends Throwable implements ExceptionMapper<Throwable> {
@@ -13,7 +14,7 @@ public class UncaughtException extends Throwable implements ExceptionMapper<Thro
 	@Override
 	public Response toResponse(Throwable exception) {
 
-		GenericExceptionEntity entity = new GenericExceptionEntity();
+		GenericResponseEntity entity = new GenericResponseEntity();
 		entity.setCode(Response.Status.BAD_REQUEST.getStatusCode());
 		entity.setReason("Uncaught Exception " + exception.getClass() + " : " + exception.getMessage());
 		Log.error("Uncaught Exception " + exception.getClass() + " : " + exception.getMessage(), exception);

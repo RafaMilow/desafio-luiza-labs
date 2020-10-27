@@ -90,7 +90,7 @@ public class ClienteResource {
 	public Response createCliente(@Valid ClienteRequest request, @Context UriInfo uriInfo) {
 		UUID uuid = UUID.randomUUID();
 		Stopwatch timer = Stopwatch.createStarted();
-		
+
 		Log.info("{} | START --> Criando um cliente. Request recebido: {}", uuid, request);
 		Integer clientId = cliente.create(request.getNome(), request.getEmail());
 		UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
@@ -108,12 +108,16 @@ public class ClienteResource {
 	public Response updateCliente(@PathParam("clienteId") Integer clienteId, @Valid ClienteRequest request) {
 		UUID uuid = UUID.randomUUID();
 		Stopwatch timer = Stopwatch.createStarted();
-		
+
 		Log.info("{} | START --> Atualizando um cliente. Request recebido: {}", uuid, request);
-		Integer result = cliente.update(clienteId, request.getNome(), request.getEmail());
+		Boolean wasUpdated = cliente.update(clienteId, request.getNome(), request.getEmail());
 		request.setId(clienteId);
-		Log.info("{} | END --> Apagando cliente. Result do update: {} | Tempo Gasto: {}ms", uuid, result,
-				timer.elapsed(TimeUnit.MILLISECONDS));
+		if (!wasUpdated) {
+			Log.info("{} | END --> Cliente nao encontrado! | Tempo Gasto: {}ms", uuid,
+					timer.elapsed(TimeUnit.MILLISECONDS));
+			throw new GenericException(Response.Status.NOT_FOUND, "Cliente não encontrado!");
+		}
+		Log.info("{} | END --> Apagando cliente. | Tempo Gasto: {}ms", uuid, timer.elapsed(TimeUnit.MILLISECONDS));
 		return Response.status(Response.Status.OK).entity(request).build();
 	}
 
@@ -127,10 +131,13 @@ public class ClienteResource {
 		Stopwatch timer = Stopwatch.createStarted();
 		Log.info("{} | START --> Apagando um cliente.", uuid);
 
-		Integer result = cliente.delete(clienteId);
-		
-		Log.info("{} | END --> Apagando cliente. Result do delete: {} | Tempo Gasto: {}ms", uuid, result,
-				timer.elapsed(TimeUnit.MILLISECONDS));
+		Boolean wasDeleted = cliente.delete(clienteId);
+		if (!wasDeleted) {
+			Log.info("{} | END --> Cliente nao encontrado! | Tempo Gasto: {}ms", uuid,
+					timer.elapsed(TimeUnit.MILLISECONDS));
+			throw new GenericException(Response.Status.NOT_FOUND, "Cliente não encontrado!");
+		}
+		Log.info("{} | END --> Apagando cliente. | Tempo Gasto: {}ms", uuid, timer.elapsed(TimeUnit.MILLISECONDS));
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 

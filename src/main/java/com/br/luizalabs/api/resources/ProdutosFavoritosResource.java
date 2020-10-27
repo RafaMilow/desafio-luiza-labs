@@ -22,6 +22,7 @@ import javax.ws.rs.core.UriInfo;
 import com.br.luizalabs.api.app.Log;
 import com.br.luizalabs.api.commons.Authentication;
 import com.br.luizalabs.api.constants.Constants;
+import com.br.luizalabs.api.exceptions.GenericException;
 import com.br.luizalabs.api.service.interfaces.ProdutosFavoritos;
 import com.br.luizalabs.api.to.ProductTO;
 import com.br.luizalabs.api.to.ProdutosFavoritosTO;
@@ -44,10 +45,10 @@ public class ProdutosFavoritosResource {
 		List<ProductTO> listagem = produtosFavoritos.getCollection(clienteId);
 		Log.info("{} | END --> Fim da busca. | Tempo Gasto: {}ms", uuid, timer.elapsed(TimeUnit.MILLISECONDS));
 
-		if (listagem.size() > Constants.EMPTY_LIST_SIZE) {
-			return Response.status(Response.Status.OK).entity(listagem).build();
+		if (listagem.size() <= Constants.EMPTY_LIST_SIZE) {
+			throw new GenericException(Response.Status.NOT_FOUND, "Listagem de favoritos não encontrada!");
 		}
-		return Response.status(Response.Status.OK).entity("Nao há produtos cadastrados na lista de favoritos deste cliente.").build();
+		return Response.status(Response.Status.OK).entity(listagem).build();
 	}
 
 	@POST

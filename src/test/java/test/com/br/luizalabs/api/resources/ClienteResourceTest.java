@@ -96,10 +96,10 @@ public class ClienteResourceTest extends AbstractResourceTest {
 	}
 
 	@Test
-	@Ignore
+	//@Ignore
 	public void deleteClienteTest() {
-		Integer clientId = 7;
-		Response response = target("/clientes/" + clientId).request().delete();
+		Integer clientId = 700;
+		Response response = target("/clientes/" + clientId).register(feature).request().delete();
 		System.out.println(response);
 		String output = response.readEntity(String.class);
 		System.out.println("--> " + output);
@@ -115,9 +115,9 @@ public class ClienteResourceTest extends AbstractResourceTest {
 	public void putClienteWithDataTest() {
 		ClienteRequest request = new ClienteRequest();
 		request.setEmail("rafael.sa@bfx.com");
-		request.setNome("");
+		request.setNome("rafa");
 		
-		Response response = target("/clientes/1").request().put(Entity.json(request));
+		Response response = target("/clientes/100").register(feature).request().put(Entity.json(request));
 		System.out.println(response);
 		String output = response.readEntity(String.class);
 		System.out.println("--> " + output);

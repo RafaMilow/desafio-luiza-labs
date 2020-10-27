@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 
 import org.jvnet.hk2.annotations.Service;
 
+import com.br.luizalabs.api.constants.Constants;
 import com.br.luizalabs.api.exceptions.GenericException;
 import com.br.luizalabs.api.jdbi.interfaces.ClientesDAO;
 import com.br.luizalabs.api.jdbi.interfaces.ProdutosFavoritosDAO;
@@ -29,12 +30,13 @@ public class ClienteImpl implements Cliente {
 	}
 
 	@Override
-	public int delete(Integer clienteId) {
-		Integer value = clientesDAO.softDelete(clienteId);
-		if (value > 0) {
+	public boolean delete(Integer clienteId) {
+		Integer affectedRows = clientesDAO.softDelete(clienteId);
+		if (affectedRows > Constants.NO_AFFECTED_ROWS) {
 			produtosFavoritosDAO.deleteAllProducts(clienteId);
+			return true;
 		}
-		return value;
+		return false;
 	}
 
 	@Override
@@ -49,14 +51,16 @@ public class ClienteImpl implements Cliente {
 	}
 
 	@Override
-	public int update(Integer clienteId, String nome, String email) {
-		Integer affected = 0;
+	public boolean update(Integer clienteId, String nome, String email) {
 		try {
-			affected = clientesDAO.updateCliente(clienteId, nome, email);
+			Integer affectedRows = clientesDAO.updateCliente(clienteId, nome, email);
+			if(affectedRows > Constants.NO_AFFECTED_ROWS) {
+				return true;
+			}
 		} catch (Exception e) {
 			handleException(e);
 		}
-		return affected;
+		return false;
 	}
 
 	@Override

@@ -12,6 +12,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import com.br.luizalabs.api.to.GenericResponseEntity;
+
 @Singleton
 @Provider
 public class ConstraintViolationMapper implements ExceptionMapper<ConstraintViolationException> {
@@ -19,7 +21,7 @@ public class ConstraintViolationMapper implements ExceptionMapper<ConstraintViol
 	@Override
 	public Response toResponse(ConstraintViolationException e) {
 		
-		GenericExceptionEntity entity = new GenericExceptionEntity();
+		GenericResponseEntity entity = new GenericResponseEntity();
 		entity.setCode(Status.BAD_REQUEST.getStatusCode());
 		
 		Set<ConstraintViolation<?>> violations = e.getConstraintViolations();

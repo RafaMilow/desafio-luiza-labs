@@ -15,8 +15,8 @@ public interface Cliente {
 	
 	public ClienteRequest retrieve(Integer clienteId);
 	
-	public int update(Integer clienteId, String nome, String email);
+	public boolean update(Integer clienteId, String nome, String email);
 	
-	public int delete(Integer clienteId);
+	public boolean delete(Integer clienteId);
 	
 }

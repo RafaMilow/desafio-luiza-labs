@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
 import com.br.luizalabs.api.app.Log;
+import com.br.luizalabs.api.constants.Constants;
 import com.br.luizalabs.api.exceptions.GenericException;
 import com.br.luizalabs.api.jdbi.interfaces.ClientesDAO;
 import com.br.luizalabs.api.jdbi.interfaces.ProdutosFavoritosDAO;
@@ -32,14 +33,13 @@ public class ProdutosFavoritosImpl implements ProdutosFavoritos {
 		checkClientExists(clienteId);
 		ProductTO product = ProductClient.getProductDetails(productId);
 		Log.info("Detalhes do produto: {}", product);
-		Integer retorno = 0;
+		Integer retorno = Constants.EMPTY_PRODUCT_ID;
 		try {
 			retorno = produtosFavoritosDAO.createItem(clienteId, product);
 		} catch (Exception e) {
-			throw new GenericException("Erro de Insert");
+			Log.error("Erro de cadastro de produto!", e);
+			handleException(e);
 		}
-
-		// ProdutosFavoritosDAOImpl produtosFavoritos = new ProdutosFavoritosDAOImpl();
 		return retorno;
 	}
 
@@ -64,6 +64,14 @@ public class ProdutosFavoritosImpl implements ProdutosFavoritos {
 		if(cliente == null) {
 			throw new GenericException(Response.Status.NOT_FOUND, "Cliente não encontrado!");
 		}
+	}
+
+	private void handleException(Exception e) {
+		if (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException.class
+				.equals(e.getCause().getCause().getClass())) {
+			throw new GenericException(Response.Status.BAD_REQUEST, "Produto já cadastrado na sua lista");
+		}
+		throw new GenericException(Response.Status.BAD_REQUEST, Response.Status.BAD_REQUEST.toString());
 	}
 
 }
