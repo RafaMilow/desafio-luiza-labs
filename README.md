@@ -7,17 +7,17 @@ Para Instalação correta do ambiente, utilizaremos o docker. Nele teremos duas 
 container para o MYSQL e outro para o TOMCAT que rodará a aplicação.
 
 A estrutura de diretório da instalação do ambiente contem o segguinte formato:
-
-- mariadb (banco de dados utilizado)
--- Dockerfile (arquivo responsavel pela constução da imagem do banco de dados)
--- setup.sql (arquivo responsavel pela criação dos dados iniciais do BD)
-- tomcat (Servidor da aplicação)
--- Dockerfile (arquivo responsavel pela constução da imagem do servidor da aplicação)
-- docker-compose.yml (arquivo responsavel pela orquestração da construção e instalação do ambiente)
-
+```bash
+├── mariadb
+│   ├── Dockerfile
+│   ├── setup.sql
+├── tomcat
+│   ├── Dockerfile
+└── docker-compose.yml (arquivo responsavel pela orquestração da construção e instalação do ambiente)
+```
 ### Comandos para a Instalação do ambiente
 
-Você deverá entrar no diretório raiz em que se encontra o docker-compose.yml e executar o seguinte comando:
+Você deverá entrar no diretório raiz em que se encontra o docker-compose.yml e executar o seguinte comando:  
 `docker-compose up -d`
 
 Ele irá construir as imagens do banco de dados e do servidor de aplicação seguindo os passos:
@@ -29,21 +29,22 @@ Ele irá construir as imagens do banco de dados e do servidor de aplicação seg
 - Copiar o artefato para o tomcat;
 - Inicializar o tomcat;
 
-Ao terminar teremos:
-Creating BFX-TOMCAT  ... done
-Creating BFX-MARIADB ... done
-
+Ao terminar teremos:  
+```bash
+Creating BFX-TOMCAT  ... done  
+Creating BFX-MARIADB ... done  
+```
 O servidor da aplicação (TOMCAT) terá a porta 8081 exposta na máquina host, ou seja, você poderá verificar se o tomcat está correndo normalmente apontando o ser browser para:
 http://localhost:8081/
 
 O MySQL (mariadb), tambem esta sendo executado com a porta 3306 exposta para o seu host, você pode usar seu client preferido e conectar
 no banco com os parametros abaixo:
-
-server: localhost
-porta: 3306
-user: root
-senha: milowrlz
-
+```
+server: localhost  
+porta: 3306  
+user: root  
+senha: milowrlz  
+```
 Assim teremos os containeres criados e prontos para utilização. Se quiser parar a qualquer momento, basta executar:
 `docker-compose down`
 
@@ -68,13 +69,13 @@ Lá teremos um arquivo com o nome: `Webapp-desafio-Luizalabs.log` com algumas in
 
 A aplicação possui dois pontos em que podemos configurar a conexão com o banco de dados e a URL para que seja chamado a API de produtos da Luiza Labs:
 
-- mysql.properties:
-mysql.driver=com.mysql.jdbc.Driver
-mysql.url=jdbc:mysql://mysqlsrv:3306/luizalabs
-mysql.username=root
-mysql.password=milowrlz
+- [mysql.properties](https://github.com/RafaMilow/desafio-luiza-labs/blob/main/src/main/resources/mysql.properties):  
+mysql.driver=com.mysql.jdbc.Driver  
+mysql.url=jdbc:mysql://mysqlsrv:3306/luizalabs  
+mysql.username=root  
+mysql.password=milowrlz  
 
-- Constants.Java:
+- [Constants.Java](https://github.com/RafaMilow/desafio-luiza-labs/blob/main/src/main/java/com/br/luizalabs/api/constants/Constants.java):  
 ```java
 package com.br.luizalabs.api.constants;
 
@@ -104,3 +105,4 @@ Senha: labs
 
 Os endpoints foram mapeados usando a ferramenta POSTMAN e sua documentação se encontra em:
 https://documenter.getpostman.com/view/94994/TVYGcdiL#273de19a-ea7d-40ed-8956-a28e2b3d324a
+
