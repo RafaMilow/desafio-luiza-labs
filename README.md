@@ -1,5 +1,9 @@
 # desafio-luiza-labs
-Esta documentação descreve a estrutura da API de produtos para desafios técnicos.
+Esta documentação descreve a estrutura da API de lista de produtos favoritos para o desafios técnico da Luiza Labs.
+
+## Instalação do Ambiente
+
+blablablabla
 
 ## Produtos
 
