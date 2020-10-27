@@ -15,6 +15,10 @@ public class Log {
 		logger.error(format, arguments);
 	}
 	
+	public static void error(String msg, Throwable t) {
+		logger.error(msg, t);
+	}
+
 	public static void debug(String format, Object...arguments) {
 		logger.debug(format, arguments);
 	}

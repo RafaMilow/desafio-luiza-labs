@@ -6,7 +6,6 @@ import java.util.StringTokenizer;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
@@ -14,10 +13,9 @@ import javax.ws.rs.ext.Provider;
 import org.glassfish.jersey.internal.util.Base64;
 
 @Provider
-@PreMatching
 @Authentication
 public class AuthenticationFilter implements ContainerRequestFilter {
-
+	//@PreMatching
 	private static final String AUTHORIZATION_HEADER_KEY = "Authorization";
 	private static final String AUTHENTICATION_HEADER_PREFIX = "Basic";
 
@@ -25,8 +23,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		MultivaluedMap<String, String> headers = requestContext.getHeaders();
 		List<String> authorization = headers.get(AUTHORIZATION_HEADER_KEY);
-
-		Response unAuthorizedStatus = Response.status(Response.Status.UNAUTHORIZED).entity("FORBIDEN!!!!").build();
+		Response unAuthorizedStatus = Response.status(Response.Status.UNAUTHORIZED).entity("NAO AUTORIZADO").build();
 		
 		if (authorization == null || authorization.isEmpty()) {
 			requestContext.abortWith(unAuthorizedStatus);

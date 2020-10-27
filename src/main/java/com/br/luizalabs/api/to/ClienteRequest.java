@@ -1,9 +1,19 @@
 package com.br.luizalabs.api.to;
 
+import javax.validation.constraints.Pattern;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+@XmlRootElement
 public class ClienteRequest {
 
 	private Integer id;
+	
+	@NotBlank(message = "Nome não pode ser vazio!")
 	private String nome;
+
+	@Pattern(message = "Endereço de e-mail invalido.", regexp = "^[a-zA-Z0-9_!#$%&�*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
 	private String email;
 
 	public Integer getId() {

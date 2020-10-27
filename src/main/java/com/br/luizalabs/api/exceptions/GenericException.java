@@ -2,8 +2,6 @@ package com.br.luizalabs.api.exceptions;
 
 import javax.ws.rs.core.Response;
 
-import com.br.luizalabs.api.to.ResponseGeneric;
-
 public class GenericException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
@@ -14,21 +12,19 @@ public class GenericException extends RuntimeException {
 		this.response = response;
 	}
 
-	public GenericException(String messge) {
-		ResponseGeneric detailResponse = new ResponseGeneric();
-		detailResponse.setInError(true);
-		detailResponse.setMessage(messge);
-
-		Response response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(detailResponse).build();
+	public GenericException(String reason) {
+		GenericExceptionEntity entity = new GenericExceptionEntity();
+		entity.setCode(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+		entity.setReason(Response.Status.INTERNAL_SERVER_ERROR.getReasonPhrase());
+		Response response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(entity).build();
 		this.response = response;
 	}
 
-	public GenericException(Response.Status status, String messge) {
-		ResponseGeneric detailResponse = new ResponseGeneric();
-		detailResponse.setInError(true);
-		detailResponse.setMessage(messge);
-
-		Response response = Response.status(status).entity(detailResponse).build();
+	public GenericException(Response.Status status, String reason) {
+		GenericExceptionEntity entity = new GenericExceptionEntity();
+		entity.setCode(status.getStatusCode());
+		entity.setReason(reason);
+		Response response = Response.status(status).entity(entity).build();
 		this.response = response;
 	}
 

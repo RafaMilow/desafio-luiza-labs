@@ -13,7 +13,9 @@ import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
 
 import com.br.luizalabs.api.commons.AuthenticationFilter;
+import com.br.luizalabs.api.exceptions.ConstraintViolationMapper;
 import com.br.luizalabs.api.exceptions.GenericExceptionMapper;
+import com.br.luizalabs.api.exceptions.UncaughtException;
 import com.br.luizalabs.api.jdbi.impl.ClientesDAOImpl;
 import com.br.luizalabs.api.jdbi.impl.ProdutosFavoritosDAOImpl;
 import com.br.luizalabs.api.jdbi.interfaces.ClientesDAO;
@@ -35,8 +37,9 @@ public abstract class AbstractResourceTest extends JerseyTest {
 				.register(AuthenticationFilter.class)
 				.register(ClienteResource.class)
 				.register(ProdutosFavoritosResource.class)
-				.register(GenericExceptionMapper.class);
-				//.register(UncaughtException.class);
+				.register(GenericExceptionMapper.class)
+				.register(UncaughtException.class)
+				.register(ConstraintViolationMapper.class);
 		
 		config.register(new AbstractBinder() {
 			@Override

@@ -6,13 +6,11 @@ import javax.ws.rs.ext.Provider;
 
 @Provider
 public class GenericExceptionMapper implements ExceptionMapper<GenericException> {
-    
-    @Override
-    public Response toResponse(GenericException exception) {
-	Response r = exception.getResponse();
-//	return Response.status(r.getStatus()).entity("Code:" + r.getStatus() + ":" + getClass().getSimpleName())
-//		.build();
-	return r;
-    }
-    
+
+	@Override
+	public Response toResponse(GenericException exception) {
+		Response r = exception.getResponse();
+		return r;
+	}
+
 }

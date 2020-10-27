@@ -20,33 +20,27 @@ public class JerseyClientTest {
 	private static String PATH = "/api/product/";
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void getSingleDataFromAPITest() {
 		
-		int productId = 1;
+		int productId = 18888;
 		String productPath = PATH + productId;
 		
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL).path(productPath);
 	
+		try {
+			ProductTO product = target.request(MediaType.APPLICATION_JSON).get(ProductTO.class);
+			System.out.println("--> " + product);
+		} catch (javax.ws.rs.NotFoundException e) {
+			System.out.println("Moio....");
+		} catch (javax.ws.rs.ProcessingException pe) {
+			System.out.println("Moio....2");
+		}
 		
-		ProductTO product = target.request(MediaType.APPLICATION_JSON).get(ProductTO.class);
-		System.out.println("--> " + product);
 		
 	}
 	
-	@Test
-	public void getProductTest() {
-		try {
-			ProductTO product1 = ProductClient.getProductDetails(1);
-			System.out.println("P: "+ product1);	
-			ProductTO product2 = ProductClient.getProductDetails(1);
-			System.out.println("P: "+ product2);
-		} catch (javax.ws.rs.NotFoundException e) {
-			System.out.println("Nao encontrado!");
-		}
-		
-	}
 	
 	@Test
 	@Ignore
